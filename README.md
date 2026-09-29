@@ -15,14 +15,18 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 
 ## Included Custom Macros
 
-### 2. Heat Soak Macros (`HEAT_SOAK_20`, `HEAT_SOAK_30`, `HEAT_SOAK_110`)
+### 2. Cancelable Heat Soak Macros (`HEAT_SOAK_20`, `HEAT_SOAK_30`, `HEAT_SOAK_110`, `CANCEL_HEAT_SOAK`)
 * **Automated Sequence:**
   1. Performs homing (`G28`).
   2. Positions nozzle 20 mm above bed at center (`G1 Z20 F1000`, `G1 X135 Y150 F3000`).
   3. Activates `cavity_fan` at 15% and the active toolhead's part cooling fan at 15% to circulate chamber heat evenly.
   4. Heats bed to 110°C (`M190 S110`).
-  5. Dwells for 20 minutes (`HEAT_SOAK_20`), 30 minutes (`HEAT_SOAK_30`), or 10 minutes (`HEAT_SOAK_110`).
+  5. Initiates non-blocking chamber soak for 20 minutes (`HEAT_SOAK_20`), 30 minutes (`HEAT_SOAK_30`), or 10 minutes (`HEAT_SOAK_110`) using `[delayed_gcode]`.
   6. Sends live 1-minute countdown reports to the console using Klipper's `[respond]` module (`RESPOND MSG=...` and `M117`).
+* **Non-Blocking & Cancelable:**
+  * Uses `[delayed_gcode _HEAT_SOAK_TICK]` instead of blocking `G4` dwell loops.
+  * Can be aborted at any moment by clicking **`CANCEL_HEAT_SOAK`** (or `HEAT_SOAK_CANCEL`) without emergency stopping or restarting Klipper.
+  * Optional parameter `HEATER_OFF=1` can be passed to turn off the bed heater and fans upon cancellation.
 
 ### 3. `SPREAD_GREASE`
 * Maintenance macro to cycle the Z-axis lead screws (20 cycles, Z10 to Z230) and X/Y linear rails in diagonal and box sweeps.
@@ -31,7 +35,8 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 ---
 
 ## File Overview
-* `printer.cfg`: Active configuration file including the custom maintenance and heat soak macros.
+* `printer.cfg`: Active configuration file including cancelable heat soak and maintenance macros.
+* `printer_backup_20260929_090328.cfg`: Timestamped backup before converting heat soaks to non-blocking cancelable delayed_gcode.
 * `printer_backup_20260928_072953.cfg`: Timestamped backup before adding the 20 & 30 min heat soak macros.
 * `printer_backup_with_macros_20260927_112555.cfg`: Timestamped backup including initial macros and fan guard adjustments.
 * `printer_backup_20260927_112337.cfg`: Original stock backup before modifications.
