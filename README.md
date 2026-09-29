@@ -25,6 +25,7 @@ This repository contains the Klipper configuration and backups for the **Snapmak
   6. Sends live 1-minute countdown reports to the console using Klipper's `[respond]` module (`RESPOND MSG=...` and `M117`).
 * **Non-Blocking & Cancelable:**
   * Uses `[delayed_gcode _HEAT_SOAK_TICK]` instead of blocking `G4` dwell loops.
+  * Dynamically manages `[idle_timeout]` during soak to prevent Klipper's default 5-minute timeout from shutting off heaters during `delayed_gcode`. Base idle timeout raised to 3600s (1 hour).
   * Can be aborted at any moment by clicking **`CANCEL_HEAT_SOAK`** (or `HEAT_SOAK_CANCEL`) without emergency stopping or restarting Klipper.
   * Optional parameter `HEATER_OFF=1` can be passed to turn off the bed heater and fans upon cancellation.
 
