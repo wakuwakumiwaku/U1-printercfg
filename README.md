@@ -11,11 +11,16 @@ This repository contains the Klipper configuration and backups for the **Snapmak
   * Reduced guard fan speed: `external_temp_guard_fan_speed: 0.5` (runs quietly at 50% instead of 100% if triggered).
   * Applied across all 4 toolhead fan sections: `e0_nozzle_fan`, `e1_nozzle_fan`, `e2_nozzle_fan`, and `e3_nozzle_fan`.
 
+### 2. Power Loss Detection Debounce (`power_loss_trigger_time`)
+* **Problem:** Stock `power_loss_trigger_time: 0.022` (22 ms) is overly sensitive. High-load prints (110 °C bed + 268 °C hotend) cause transient ripple or micro-dips on the 24V line, triggering false power-off signals or emergency shutdowns.
+* **Modification:**
+  * Set `power_loss_trigger_time: 0.05` (50 ms) under `[power_loss_check]`, per Snapmaker official troubleshooting guidance, to debounce transient voltage dips without compromising blackout state saves.
+
 ---
 
 ## Included Custom Macros
 
-### 2. Heat Soak Macros (`HEAT_SOAK_20`, `HEAT_SOAK_30`, `HEAT_SOAK_110`)
+### 3. Heat Soak Macros (`HEAT_SOAK_20`, `HEAT_SOAK_30`, `HEAT_SOAK_110`)
 * **Automated Sequence:**
   1. Performs homing (`G28`).
   2. Positions nozzle 20 mm above bed at center (`G1 Z20 F1000`, `G1 X135 Y150 F3000`).
@@ -24,14 +29,15 @@ This repository contains the Klipper configuration and backups for the **Snapmak
   5. Dwells for 20 minutes (`HEAT_SOAK_20`), 30 minutes (`HEAT_SOAK_30`), or 10 minutes (`HEAT_SOAK_110`).
   6. Sends live 1-minute countdown reports to the console using Klipper's `[respond]` module (`RESPOND MSG=...` and `M117`).
 
-### 3. `SPREAD_GREASE`
+### 4. `SPREAD_GREASE`
 * Maintenance macro to cycle the Z-axis lead screws (20 cycles, Z10 to Z230) and X/Y linear rails in diagonal and box sweeps.
 * Used for breaking in and evenly distributing grease after maintenance.
 
 ---
 
 ## File Overview
-* `printer.cfg`: Active configuration file including the custom maintenance and heat soak macros.
+* `printer.cfg`: Active configuration file including custom maintenance macros and adjusted power loss threshold.
+* `printer_backup_PRE-Timingthreshold.cfg`: Backup taken before changing `power_loss_trigger_time` from 0.022 to 0.05.
 * `printer_backup_20260928_072953.cfg`: Timestamped backup before adding the 20 & 30 min heat soak macros.
 * `printer_backup_with_macros_20260927_112555.cfg`: Timestamped backup including initial macros and fan guard adjustments.
 * `printer_backup_20260927_112337.cfg`: Original stock backup before modifications.
