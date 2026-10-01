@@ -33,10 +33,16 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * Maintenance macro to cycle the Z-axis lead screws (20 cycles, Z10 to Z230) and X/Y linear rails in diagonal and box sweeps.
 * Used for breaking in and evenly distributing grease after maintenance.
 
+### 5. Silent Night Mode (`NIGHT_MODE`, `DAY_MODE`) & StealthChop
+* Enabled `stealthchop_threshold: 999999` on `stealthchop_threshold` for X, Y (`tmc2240`), and Z (`tmc2209`) for whisper-quiet motor operation.
+* Added `NIGHT_MODE` (1000 mm/s² accel, 50% feedrate) and `DAY_MODE` (20000 mm/s² accel, 100% feedrate) one-click macros.
+
 ---
 
 ## File Overview
-* `printer.cfg`: Active configuration file including custom maintenance macros and adjusted power loss threshold.
+* `printer.cfg`: Active configuration file including custom maintenance macros, power loss debounce, StealthChop, and night mode macros.
+* `printer_backup_PRE-StealthChop.cfg`: Backup taken before enabling StealthChop and adding night/day macros.
+* `printer_backup_20261001_235000.cfg`: Timestamped backup before enabling StealthChop.
 * `printer_backup_PRE-Timingthreshold.cfg`: Backup taken before changing `power_loss_trigger_time` from 0.022 to 0.05.
 * `printer_backup_20260928_072953.cfg`: Timestamped backup before adding the 20 & 30 min heat soak macros.
 * `printer_backup_with_macros_20260927_112555.cfg`: Timestamped backup including initial macros and fan guard adjustments.
