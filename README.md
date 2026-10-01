@@ -33,9 +33,9 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * Maintenance macro to cycle the Z-axis lead screws (20 cycles, Z10 to Z230) and X/Y linear rails in diagonal and box sweeps.
 * Used for breaking in and evenly distributing grease after maintenance.
 
-### 5. Silent Night Mode (`NIGHT_MODE`, `DAY_MODE`) & StealthChop
-* Enabled `stealthchop_threshold: 999999` on `stealthchop_threshold` for X, Y (`tmc2240`), and Z (`tmc2209`) for whisper-quiet motor operation.
-* Added `NIGHT_MODE` (1000 mm/s² accel, 50% feedrate) and `DAY_MODE` (20000 mm/s² accel, 100% feedrate) one-click macros.
+### 5. Silent Night Mode (`NIGHT_MODE`, `DAY_MODE`)
+* **`NIGHT_MODE`:** Dynamically drops acceleration to 2,000 mm/s², sets `ACCEL_TO_DECEL` to 1,000, square corner velocity to 5, and reduces feedrate to 50% (`M220 S50`). Can be triggered on-the-fly during a running print without layer shifts or re-slicing. Supports optional parameters (e.g., `NIGHT_MODE SPEED=60 ACCEL=2500`).
+* **`DAY_MODE`:** Restores full daytime speed (100% feedrate, 20,000 mm/s² accel, SCV 8) with one click.
 
 ---
 
