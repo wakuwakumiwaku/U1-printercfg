@@ -35,3 +35,23 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * `printer_backup_20260928_072953.cfg`: Timestamped backup before adding the 20 & 30 min heat soak macros.
 * `printer_backup_with_macros_20260927_112555.cfg`: Timestamped backup including initial macros and fan guard adjustments.
 * `printer_backup_20260927_112337.cfg`: Original stock backup before modifications.
+* `errors/`: Documentation and raw logs for printer incidents and diagnostic investigations.
+
+---
+
+## Errors & Incident Logs
+
+### [2026-10-01] Lost communication with MCU 'e1' (Toolhead 1)
+* **Status:** Resolved / Hardware OK (Intermittent bus/contact timeout).
+* **Detailed Report:** [`errors/2026-10-01_mcu_e1_lost_communication.md`](errors/2026-10-01_mcu_e1_lost_communication.md)
+* **Log Signature:**
+  ```text
+  08:18:40.045: Timeout with MCU 'e1' (eventtime=2084231.798893)
+  08:18:40.045: Transition to shutdown state: {"coded": "0003-0522-0003-0008", "oneshot": 0, "msg":"Lost communication with MCU 'e1'"}
+  ...
+  !! Lost communication with MCU 'e1'
+  // Klipper state: Disconnect
+  ```
+* **Summary:** Occurred ~52 min into an ASA print (`u1-motherboard-fan-chance1_PLA_5h40m.gcode`) at 110 °C bed, 58 °C chamber, 268 °C nozzle, during a high-acceleration wipe move (`ACCEL=10000`, `F9000`). MCU reconnected successfully after firmware restart.
+* **Root Cause & Action:** Micro-debris/vibration on SnapSwap pogo-pin contacts at ~938 operating hours. Cleaned pogo-pins and contact pads with IPA, verified pin travel, and checked cable harness strain relief.
+
