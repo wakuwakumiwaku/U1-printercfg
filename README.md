@@ -49,6 +49,18 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 
 ## Errors & Incident Logs
 
+### [2026-10-02] Internal error on command:"G1" / Lost communication with MCU 'e1' (Toolhead 2)
+* **Status:** Open / Intermittent Hardware Fault (USB-C cable vs. Toolhead 2 PCB socket).
+* **Detailed Report:** [`errors/2026-10-02_internal_error_g1_mcu_e1_disconnect.md`](errors/2026-10-02_internal_error_g1_mcu_e1_disconnect.md)
+* **Log Signature:**
+  ```text
+  !! Internal error on command:"G1"
+  b'stepcompress o=15 i=0 c=8 a=0: Invalid sequence'
+  Lost communication with MCU 'e1' (Code: 0003-0522-0003-0008, ID: 522)
+  ```
+* **Summary:** Occurred ~12.3 hours into `u1-motherboard-fan-chance1_PLA_5h39m.gcode` at 270 °C nozzle, 110 °C bed, 57 °C chamber. The generic `G1` failure was a secondary crash of Klipper's step compression when MCU `e1` disconnected. Toolhead reconnected normally after restart.
+* **Diagnosis:** Dynamic USB-C cable fatigue vs. PCB USB-C receptacle contact fretting. Cross-swap test with Toolhead 1 to be performed for RMA.
+
 ### [2026-10-01] Lost communication with MCU 'e1' (Toolhead 1)
 * **Status:** Resolved / Hardware OK (Intermittent bus/contact timeout).
 * **Detailed Report:** [`errors/2026-10-01_mcu_e1_lost_communication.md`](errors/2026-10-01_mcu_e1_lost_communication.md)
