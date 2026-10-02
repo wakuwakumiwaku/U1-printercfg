@@ -36,7 +36,8 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 ---
 
 ## File Overview
-* `printer.cfg`: Active configuration file including custom maintenance and heat soak macros, nozzle fan guard optimizations, and power loss debounce.
+* `printer.cfg`: Active configuration file including custom maintenance and heat soak macros, 100% nozzle fan chamber guard, and power loss debounce.
+* `printer_backup_20261003_010800.cfg`: Timestamped backup with `external_temp_guard_fan_speed: 1.0` (100% cooling above 55 °C chamber).
 * `printer_backup_PRE-StealthChop.cfg`: Backup taken before the StealthChop experiment (StealthChop tested and reverted due to CoreXY resonance and phase lag).
 * `printer_backup_20261001_235000.cfg`: Timestamped backup before enabling StealthChop.
 * `printer_backup_PRE-Timingthreshold.cfg`: Backup taken before changing `power_loss_trigger_time` from 0.022 to 0.05.
