@@ -8,7 +8,7 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * **Problem:** Stock configuration set `external_temp_guard_range: -15.0, 45.0` with `external_temp_guard_fan_speed: 1.0`. When heat-soaking the chamber for ASA/ABS ($>45^\circ\text{C}$), all four docked nozzle fans automatically screamed at 100% continuous speed.
 * **Modification:**
   * Raised upper chamber guard limit: `external_temp_guard_range: -15.0, 55.0` (prevents fans from triggering prematurely during heat-soaks).
-  * Reduced guard fan speed: `external_temp_guard_fan_speed: 0.5` (runs quietly at 50% instead of 100% if triggered).
+  * Guard fan speed: `external_temp_guard_fan_speed: 1.0` (runs at 100% full airflow above 55 °C to prevent toolhead STM32/TMC2209 thermal throttling and USB packet loss during high-temperature prints).
   * Applied across all 4 toolhead fan sections: `e0_nozzle_fan`, `e1_nozzle_fan`, `e2_nozzle_fan`, and `e3_nozzle_fan`.
 
 ### 2. Power Loss Detection Debounce (`power_loss_trigger_time`)
