@@ -33,15 +33,11 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * Maintenance macro to cycle the Z-axis lead screws (20 cycles, Z10 to Z230) and X/Y linear rails in diagonal and box sweeps.
 * Used for breaking in and evenly distributing grease after maintenance.
 
-### 5. 24/7 Silent Mode & StealthChop
-* Enabled `stealthchop_threshold: 999999` on X, Y (`tmc2240`), and Z (`tmc2209`) to completely eliminate high-frequency motor coil whine.
-* Permanently capped `[printer]` base limits to safe, silent thresholds (`max_velocity: 250` mm/s, `max_accel: 3500` mm/s², `square_corner_velocity: 5` mm/s) to eliminate gantry shock and guarantee zero layer shifts under StealthChop 24/7.
-
 ---
 
 ## File Overview
-* `printer.cfg`: Active configuration file with 24/7 Silent StealthChop, safe motion limits, custom maintenance macros, and power loss debounce.
-* `printer_backup_PRE-StealthChop.cfg`: Backup taken before enabling StealthChop and adding night/day macros.
+* `printer.cfg`: Active configuration file including custom maintenance and heat soak macros, nozzle fan guard optimizations, and power loss debounce.
+* `printer_backup_PRE-StealthChop.cfg`: Backup taken before the StealthChop experiment (StealthChop tested and reverted due to CoreXY resonance and phase lag).
 * `printer_backup_20261001_235000.cfg`: Timestamped backup before enabling StealthChop.
 * `printer_backup_PRE-Timingthreshold.cfg`: Backup taken before changing `power_loss_trigger_time` from 0.022 to 0.05.
 * `printer_backup_20260928_072953.cfg`: Timestamped backup before adding the 20 & 30 min heat soak macros.
