@@ -61,6 +61,21 @@ This repository contains the Klipper configuration and backups for the **Snapmak
 * **Summary:** Cluster of 10 shutdowns (8x MCU disconnects, 2x heater verify trips) during an overnight high-temp ASA print (`u1-motherboard-fan-chance1_PLA_4h54m.gcode`) under sustained 55–60 °C chamber temps. The printer automatically recovered 10 times via `power_loss` resume. Serial telemetry proved massive packet retransmits (`bytes_retransmit=9120` and `8633` on `e1` vs `9` on others).
 * **Root Cause & Action:** Contact resistance and thermal fretting on Toolhead 2 carriage dock pogo-pins. Mandatory IPA cleaning of pins/pads and spring compliance check required.
 
+#### Incident Chronology (Toolhead 2 / `e1` – 2026-10-03)
+
+| # | Local Time (CEST) | UTC | Error Code / ID | Error Message | Chamber | Extruder 1 | Diagnosis / Symptoms |
+|---|---|---|---|---|---|---|---|
+| **1** | 05:08:31 | 03:08:31 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 59.7 °C | 268.3 °C | Timeout after 3.7 h initial run |
+| **2** | 05:31:05 | 03:31:05 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 58.4 °C | 268.7 °C | Reoccurrence after 18 min |
+| **3** | 06:17:38 | 04:17:38 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 59.2 °C | 270.3 °C | `err_len=5` on toolhead serial RX |
+| **4** | 06:48:05 | 04:48:05 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 58.4 °C | 269.4 °C | Contact drop during raster move |
+| **5** | 07:18:04 | 05:18:04 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 59.0 °C | 271.7 °C | Packet timeout |
+| **6** | 07:32:25 | 05:32:25 | `0003-0523-0001-0003` (523) | `Heater extruder1 not heating at expected rate` | 57.4 °C | 270.9 °C | ADC voltage fluctuation / jitter |
+| **7** | 08:34:03 | 06:34:03 | `0003-0523-0001-0003` (523) | `Heater extruder1 not heating at expected rate` | 59.3 °C | 271.0 °C | Temp drift (271.03 °C) violates gain window |
+| **8** | 09:00:43 | 07:00:43 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 57.3 °C | 269.0 °C | **`bytes_retransmit = 9120`** (massive packet loss) |
+| **9** | 09:17:36 | 07:17:36 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 55.2 °C | 270.5 °C | 74 unacknowledged ping packets |
+| **10** | 09:26:00 | 07:26:00 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 55.5 °C | 269.8 °C | **`bytes_retransmit = 8633`** (dropped connection after 6 min) |
+
 ### [2026-10-02] Internal error on command:"G1" / Lost communication with MCU 'e1' (Toolhead 2)
 * **Status:** Open / Intermittent Hardware Fault (USB-C cable vs. Toolhead 2 PCB socket).
 * **Detailed Report:** [`errors/2026-10-02_internal_error_g1_mcu_e1_disconnect.md`](errors/2026-10-02_internal_error_g1_mcu_e1_disconnect.md)
