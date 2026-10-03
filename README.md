@@ -58,7 +58,7 @@ This repository contains the Klipper configuration and backups for the **Snapmak
   Lost communication with MCU 'e1' (Code: 0003-0522-0003-0008, ID: 522)
   Heater extruder1 not heating at expected rate, temp: 271.03 target: 270.00 (Code: 0003-0523-0001-0003, ID: 523)
   ```
-* **Summary:** Cluster of 9 shutdowns (7x MCU disconnects, 2x heater verify trips) during an overnight high-temp ASA print (`u1-motherboard-fan-chance1_PLA_4h54m.gcode`) under sustained 55–60 °C chamber temps. The printer automatically recovered 9 times via `power_loss` resume. Serial telemetry proved massive packet retransmits (`bytes_retransmit=9120` on `e1` vs `9` on others).
+* **Summary:** Cluster of 10 shutdowns (8x MCU disconnects, 2x heater verify trips) during an overnight high-temp ASA print (`u1-motherboard-fan-chance1_PLA_4h54m.gcode`) under sustained 55–60 °C chamber temps. The printer automatically recovered 10 times via `power_loss` resume. Serial telemetry proved massive packet retransmits (`bytes_retransmit=9120` and `8633` on `e1` vs `9` on others).
 * **Root Cause & Action:** Contact resistance and thermal fretting on Toolhead 2 carriage dock pogo-pins. Mandatory IPA cleaning of pins/pads and spring compliance check required.
 
 ### [2026-10-02] Internal error on command:"G1" / Lost communication with MCU 'e1' (Toolhead 2)

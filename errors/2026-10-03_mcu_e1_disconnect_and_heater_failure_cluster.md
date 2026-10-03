@@ -1,6 +1,6 @@
 # Incident Report: Recurring MCU 'e1' Disconnects & Heater Verification Errors (Toolhead 2)
 
-* **Date:** 2026-10-03 (03:08 – 07:17 UTC / 05:08 – 09:17 CEST)
+* **Date:** 2026-10-03 (03:08 – 07:26 UTC / 05:08 – 09:26 CEST)
 * **Printer:** Snapmaker U1 (Serial: `8110026010700126YWSV`, Device: `U1`)
 * **Firmware:** Klipper `1.3.0` / Software `1.3.0` / Linux Buildroot `6.1`
 * **Target Hardware:** Toolhead 2 / Extruder 1 MCU (`e1` - STM32F105, USB: `/dev/serial/by-path/platform-xhci-hcd.0.auto-usb-0:1.4:1.0`)
@@ -11,17 +11,17 @@
 
 ## 1. Executive Summary
 
-During a continuous overnight high-temperature print job on 2026-10-03, Toolhead 2 (`MCU 'e1'`) experienced a **cluster of 9 emergency shutdowns** within a 4-hour window. Each time, Klipper's emergency shutdown triggered, followed by Snapmaker's automated `power_loss` recovery which re-homed and resumed the print from SD-card flash position.
+During a continuous overnight high-temperature print job on 2026-10-03, Toolhead 2 (`MCU 'e1'`) experienced a **cluster of 10 emergency shutdowns** within a 4.5-hour window. Each time, Klipper's emergency shutdown triggered, followed by Snapmaker's automated `power_loss` recovery which re-homed and resumed the print from SD-card flash position.
 
 The failures manifested as two alternating error signatures:
-1. **7× `Lost communication with MCU 'e1'` (Code: `0003-0522-0003-0008`, ID: 522):** Total serial communication loss / unacknowledged packet timeouts between host Linux and the toolhead STM32 MCU.
+1. **8× `Lost communication with MCU 'e1'` (Code: `0003-0522-0003-0008`, ID: 522):** Total serial communication loss / unacknowledged packet timeouts between host Linux and the toolhead STM32 MCU.
 2. **2× `Heater extruder1 not heating at expected rate` (Code: `0003-0523-0001-0003`, ID: 523):** Klipper `verify_heater` trip caused by ADC voltage instability and temperature overshoot/drift under thermal stress.
 
-Across all 9 incidents, microcontrollers `e0` (Toolhead 1), `e2` (Toolhead 3), `e3` (Toolhead 4), and main `mcu` remained 100% operational with 0 packet loss. The issue is strictly isolated to **Toolhead 2 (`e1`)**.
+Across all 10 incidents, microcontrollers `e0` (Toolhead 1), `e2` (Toolhead 3), `e3` (Toolhead 4), and main `mcu` remained 100% operational with 0 packet loss. The issue is strictly isolated to **Toolhead 2 (`e1`)**.
 
 ---
 
-## 2. Chronological Incident Log (All 9 Events)
+## 2. Chronological Incident Log (All 10 Events)
 
 | # | Time (UTC) | Time (CEST) | Error Code / ID | Error Message | Print Time | Bed (°C) | Cavity (°C) | Extruder1 (°C) | e1 Retransmit / Symptoms |
 |---|---|---|---|---|---|---|---|---|---|
@@ -34,6 +34,7 @@ Across all 9 incidents, microcontrollers `e0` (Toolhead 1), `e2` (Toolhead 3), `
 | **7** | 06:34:03 | 08:34:03 | `0003-0523-0001-0003` (523) | `Heater extruder1 not heating at expected rate` | 3,518 s (~58 m) | 109.7 | 59.3 | 271.0 (Target 270.0) | Temp drift at 271.03 °C violates gain window |
 | **8** | 07:00:43 | 09:00:43 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 1,128 s (~19 m) | 109.6 | 57.3 | 269.0 (PWM 0.65) | **`bytes_retransmit=9120`** (massive packet loss) |
 | **9** | 07:17:36 | 09:17:36 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 809 s (~13.5 m) | 109.9 | 55.2 | 270.5 (PWM 0.30) | `retransmit=71`, 74 unacknowledged pings |
+| **10** | 07:26:00 | 09:26:00 | `0003-0522-0003-0008` (522) | `Lost communication with MCU 'e1'` | 382 s (~6.3 m) | 105.4 | 55.5 | 269.8 (PWM 0.44) | **`bytes_retransmit=8633`** (dropped connection ~6 min after resume) |
 
 ---
 
